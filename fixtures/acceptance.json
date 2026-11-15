@@ -1,0 +1,158 @@
+{
+  "scenario": "中国—东盟跨境智慧物流走廊数字孪生",
+  "synthetic": true,
+  "records": [
+    {
+      "record_id": "shipment_journey-001",
+      "payload": {
+        "shipment_id": "shipment_id-0",
+        "route_code": "route_code-1",
+        "vehicle_class": "vehicle_class-2",
+        "cargo_class": "cargo_class-3",
+        "eta_min": 19.6,
+        "border_queue": 21.5,
+        "warehouse_load": 0.91,
+        "temperature": 25.3,
+        "customs_status": "customs_status-3",
+        "capacity_units": 29.1,
+        "priority": 31.0,
+        "event_sequence": 32.9
+      },
+      "state": "booked",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "shipment_journey-002",
+      "payload": {
+        "shipment_id": "shipment_id-1",
+        "route_code": "route_code-2",
+        "vehicle_class": "vehicle_class-3",
+        "cargo_class": "cargo_class-4",
+        "eta_min": 23.3,
+        "border_queue": 25.2,
+        "warehouse_load": 0.25,
+        "temperature": 29.0,
+        "customs_status": "customs_status-4",
+        "capacity_units": 32.8,
+        "priority": 34.7,
+        "event_sequence": 36.6
+      },
+      "state": "booked",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "shipment_journey-003",
+      "payload": {
+        "shipment_id": "shipment_id-2",
+        "route_code": "route_code-3",
+        "vehicle_class": "vehicle_class-4",
+        "cargo_class": "cargo_class-0",
+        "eta_min": 27.0,
+        "border_queue": 28.9,
+        "warehouse_load": 0.36,
+        "temperature": 32.7,
+        "customs_status": "customs_status-0",
+        "capacity_units": 36.5,
+        "priority": 38.4,
+        "event_sequence": 40.3
+      },
+      "state": "booked",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "shipment_journey-004",
+      "payload": {
+        "shipment_id": "shipment_id-3",
+        "route_code": "route_code-4",
+        "vehicle_class": "vehicle_class-0",
+        "cargo_class": "cargo_class-1",
+        "eta_min": 30.7,
+        "border_queue": 32.6,
+        "warehouse_load": 0.47,
+        "temperature": 36.4,
+        "customs_status": "customs_status-1",
+        "capacity_units": 40.2,
+        "priority": 42.1,
+        "event_sequence": 44.0
+      },
+      "state": "booked",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "shipment_journey-005",
+      "payload": {
+        "shipment_id": "shipment_id-4",
+        "route_code": "route_code-0",
+        "vehicle_class": "vehicle_class-1",
+        "cargo_class": "cargo_class-2",
+        "eta_min": 34.4,
+        "border_queue": 36.3,
+        "warehouse_load": 0.58,
+        "temperature": 40.1,
+        "customs_status": "customs_status-2",
+        "capacity_units": 43.9,
+        "priority": 45.8,
+        "event_sequence": 47.7
+      },
+      "state": "booked",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "shipment_journey-006",
+      "payload": {
+        "shipment_id": "shipment_id-0",
+        "route_code": "route_code-1",
+        "vehicle_class": "vehicle_class-2",
+        "cargo_class": "cargo_class-3",
+        "eta_min": 38.1,
+        "border_queue": 40.0,
+        "warehouse_load": 0.69,
+        "temperature": 43.8,
+        "customs_status": "customs_status-3",
+        "capacity_units": 47.6,
+        "priority": 49.5,
+        "event_sequence": 51.4
+      },
+      "state": "booked",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "shipment_journey-007",
+      "payload": {
+        "shipment_id": "shipment_id-1",
+        "route_code": "route_code-2",
+        "vehicle_class": "vehicle_class-3",
+        "cargo_class": "cargo_class-4",
+        "eta_min": 41.8,
+        "border_queue": 43.7,
+        "warehouse_load": 0.8,
+        "temperature": 47.5,
+        "customs_status": "customs_status-4",
+        "capacity_units": 51.3,
+        "priority": 53.2,
+        "event_sequence": 55.1
+      },
+      "state": "booked",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "shipment_journey-008",
+      "payload": {
+        "shipment_id": "shipment_id-2",
+        "route_code": "route_code-3",
+        "vehicle_class": "vehicle_class-4",
+        "cargo_class": "cargo_class-0",
+        "eta_min": 45.5,
+        "border_queue": 47.4,
+        "warehouse_load": 0.91,
+        "temperature": 51.2,
+        "customs_status": "customs_status-0",
+        "capacity_units": 55.0,
+        "priority": 56.9,
+        "event_sequence": 58.8
+      },
+      "state": "booked",
+      "source": "synthetic-local-acceptance"
+    }
+  ]
+}

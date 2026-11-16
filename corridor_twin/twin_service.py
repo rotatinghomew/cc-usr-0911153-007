@@ -9,11 +9,13 @@ from corridor_twin.state.twin_repository import Repository
 from corridor_twin.dispatch.decision_flow import advance_for_outcome, decide
 from corridor_twin.visibility.control_tower import export_bundle, verify_bundle
 from corridor_twin.network.capacity_replay import derive_context
+from corridor_twin.dispatch.transport_book import TransportBook
 
 
 class Application:
     def __init__(self, database: str | Path, context: Mapping[str, Any] | None = None):
         self.repository = Repository(database)
+        self.transport_book = TransportBook(self.repository)
         self.context = dict(context or {})
 
     def ingest(self, record: DomainRecord) -> DomainRecord:
@@ -63,7 +65,7 @@ class Application:
 
     def inspect(self) -> dict[str, Any]:
         return {"snapshot": self.repository.snapshot(), "records": [record.__dict__ for record in self.repository.list_records()],
-                "decisions": self.repository.decision_rows()}
+                "decisions": self.repository.decision_rows(), "transport": self.transport_book.inspect()}
 
 
 def load_fixture(path: str | Path) -> dict[str, Any]:

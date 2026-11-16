@@ -56,17 +56,23 @@ class TransportBook:
                          (shipment_id,)).fetchone():
                 raise ContractError("货票已有运输承诺")
             previous = None
+            route = [part.strip().casefold() for part in str(json.loads(shipment["payload_json"]).get("route_code", "")).replace("_", "-").split("-") if part.strip()]
+            first_origin = None
             for edge_id in edges:
                 edge = c.execute("SELECT * FROM transport_edges WHERE edge_id=? AND window=?", (edge_id, window)).fetchone()
                 if edge is None or revisions.get(edge_id) != edge["revision"]:
                     raise ContractError("路径包含未知或已更新路段")
                 if previous is not None and previous != edge["origin"]:
                     raise ContractError("运输路径不连续")
+                if first_origin is None:
+                    first_origin = edge["origin"]
                 previous = edge["destination"]
                 used = c.execute("SELECT COALESCE(SUM(units),0) FROM transport_usage WHERE edge_id=? AND window=?",
                                  (edge_id, window)).fetchone()[0]
                 if used + units > edge["capacity"]:
                     raise ContractError("共享路段容量不足")
+            if len(route) >= 2 and (first_origin.casefold(), previous.casefold()) != (route[0], route[-1]):
+                raise ContractError("运输路径起终点与货票不符")
             c.execute("INSERT INTO transport_orders VALUES(?,?,?,?,?,?,'reserved')",
                       (order_id, shipment_id, shipment["fingerprint"], window, units, json.dumps(edges)))
             for edge_id in edges:

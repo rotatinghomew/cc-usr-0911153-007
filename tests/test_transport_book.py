@@ -41,3 +41,14 @@ class TransportBookTests(unittest.TestCase):
             with self.assertRaises(ContractError):
                 book.reserve("two", "a", "morning", ["ab"], 1, {"ab": 1})
             self.assertEqual(book.inspect()["orders"], [])
+
+    def test_path_must_reach_the_goods_destination(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = Application(Path(d) / "db")
+            app.ingest(DomainRecord("a", {"route_code": "a-c"}))
+            book = app.transport_book
+            book.capacity("ab", "morning", "a", "b", 1)
+            with self.assertRaisesRegex(ContractError, "起终点"):
+                book.reserve("one", "a", "morning", ["ab"], 1, {"ab": 1})
+            self.assertEqual(book.inspect()["orders"], [])
+            self.assertEqual(book.inspect()["edges"][0]["available"], 1)

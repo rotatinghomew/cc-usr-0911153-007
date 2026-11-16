@@ -10,6 +10,7 @@ from corridor_twin.dispatch.decision_flow import advance_for_outcome, decide
 from corridor_twin.visibility.control_tower import export_bundle, verify_bundle
 from corridor_twin.network.capacity_replay import derive_context
 from corridor_twin.dispatch.transport_book import TransportBook
+from corridor_twin.dispatch.reroute_scenario import compare_plans, control_tower_view
 
 
 class Application:
@@ -57,15 +58,34 @@ class Application:
         snapshot = self.repository.snapshot()
         if snapshot["chain_errors"]:
             raise ContractError("audit chain verification failed")
-        manifest = export_bundle(output, final_records, decisions, snapshot, self.repository.event_rows())
+        manifest = export_bundle(output, final_records, decisions, snapshot, self.repository.event_rows(),
+                                 self._transport_report())
         result = {"run_id": run_id, "fixture_hash": fixture_hash, "records": len(final_records),
                   "decisions": len(decisions), "manifest": manifest, "snapshot": snapshot}
         self.repository.finish_run(run_id, result)
         return result
 
+    def compare_reroute(self, plans: list[Mapping[str, Any]]) -> dict[str, Any]:
+        """晨会场景比较：多票共享路段及口岸能力的假设性分析，不写入台账。"""
+        return compare_plans(self.transport_book, plans)
+
+    def commit_reroute(self, plan: Mapping[str, Any]) -> dict[str, Any]:
+        """落实选定方案：按实时台账复核比较依据后原子生效。"""
+        if not isinstance(plan, Mapping):
+            raise ContractError("方案格式无效")
+        basis = plan.get("basis_hash")
+        if not basis:
+            raise ContractError("方案缺少比较依据，需先比较再落实")
+        return self.transport_book.apply_plan(list(plan.get("moves") or []), basis)
+
+    def _transport_report(self) -> dict[str, Any]:
+        report = self.transport_book.inspect()
+        report["view"] = control_tower_view(self.transport_book)
+        return report
+
     def inspect(self) -> dict[str, Any]:
         return {"snapshot": self.repository.snapshot(), "records": [record.__dict__ for record in self.repository.list_records()],
-                "decisions": self.repository.decision_rows(), "transport": self.transport_book.inspect()}
+                "decisions": self.repository.decision_rows(), "transport": self._transport_report()}
 
 
 def load_fixture(path: str | Path) -> dict[str, Any]:
